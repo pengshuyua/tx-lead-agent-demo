@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>同享智能体线索 Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="demo-shell">
+      <section class="phone-frame" aria-label="同享智能体线索查询交互演示">
+        <div id="app"></div>
+      </section>
+      <aside class="demo-notes" aria-label="演示说明">
+        <p class="eyebrow">Interactive Demo</p>
+        <h1>同享智能体 · 线索查询</h1>
+        <p>
+          本 Demo 使用本地 mock 数据模拟 L1 在线索提醒、问答查询、拨号、跟进计划和线索处理中的核心流程。
+        </p>
+        <div class="note-grid">
+          <button class="note-action" data-demo-route="#/">首页提醒</button>
+          <button class="note-action" data-demo-route="#/agent">智能体查询</button>
+          <button class="note-action" data-demo-route="#/visits">今日拜访</button>
+          <button class="note-action" data-demo-route="#/list/new">新线索列表</button>
+        </div>
+      </aside>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
