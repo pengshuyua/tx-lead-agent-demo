@@ -507,12 +507,12 @@ function homePage() {
         </section>
 
         <div class="home-actions">
-          <button class="prompt-action" data-route="#/agent">
-            <span><span class="round-icon">${icon("search")}</span> 给我推送最新线索信息</span>
+          <button class="prompt-action" data-route="#/models">
+            <span>咨询客户适配机型</span>
             ${icon("arrow")}
           </button>
-          <button class="prompt-action" data-route="#/visits">
-            <span><span class="round-icon">${icon("calendar")}</span> 查看我的本月拜访</span>
+          <button class="prompt-action" data-route="#/events">
+            <span>查看联想近期活动</span>
             ${icon("arrow")}
           </button>
         </div>
@@ -540,6 +540,118 @@ function bottomInput({ placeholder, routeToAgent = false } = {}) {
           ${routeToAgent ? icon("mic") : icon("send")}
         </button>
       </form>
+    </div>
+  `;
+}
+
+function modelsPage() {
+  const models = [
+    {
+      name: "ThinkPad X1 Carbon Aura AI",
+      tag: "高管移动办公",
+      price: "参考价 12999 起",
+      detail: "轻薄高续航，适合高校、金融和咨询客户的高频差旅场景。",
+      pitch: "建议主推 AI 会议纪要、本地隐私保护和全天候续航。",
+    },
+    {
+      name: "ThinkBook 16+ 2026",
+      tag: "团队批量换新",
+      price: "参考价 6999 起",
+      detail: "16 英寸大屏和高性能释放，适合研发、设计、销售支持等混合团队。",
+      pitch: "建议搭配三年上门服务和批量资产管理方案。",
+    },
+    {
+      name: "ThinkCentre neo Ultra",
+      tag: "固定工位升级",
+      price: "参考价 8999 起",
+      detail: "小体积桌面主机，适合办公室、教室、门店收银和轻量 AI 应用。",
+      pitch: "建议强调省空间、低噪音、易维护和统一部署。",
+    },
+  ];
+  return `
+    <div class="app-screen">
+      <div class="scroll-page">
+        ${topNav("咨询客户适配机型", { back: "go-home" })}
+        <main class="info-content">
+          <section class="info-hero model-hero">
+            <span>AI PC 推荐助手</span>
+            <h2>根据客户场景快速匹配主推机型</h2>
+            <p>以下内容为演示 mock 数据，可用于模拟 L1 在跟进线索时询问“该客户推荐什么机型”。</p>
+          </section>
+          <section class="model-list">
+            ${models.map((item) => `
+              <article class="info-card">
+                <div class="info-card-head">
+                  <strong>${item.name}</strong>
+                  <span>${item.tag}</span>
+                </div>
+                <p>${item.detail}</p>
+                <div class="info-meta">${item.price}</div>
+                <div class="talk-track">${item.pitch}</div>
+              </article>
+            `).join("")}
+          </section>
+          <section class="info-card compact">
+            <strong>演示提问</strong>
+            <button data-demo-query="北京师范大学适合推荐什么机型？">北京师范大学适合推荐什么机型？</button>
+            <button data-demo-query="批量换新客户优先推荐哪款 ThinkBook？">批量换新客户优先推荐哪款 ThinkBook？</button>
+          </section>
+        </main>
+      </div>
+      ${bottomInput({ placeholder: "输入客户场景，例如：高校智慧教室机型推荐" })}
+      ${toastMarkup()}
+      ${modalMarkup()}
+    </div>
+  `;
+}
+
+function eventsPage() {
+  const events = [
+    {
+      title: "联想 AI PC 体验日",
+      date: "7月12日 · 北京",
+      audience: "高校、金融、政企重点客户",
+      summary: "现场演示 AI 会议纪要、智能搜索、隐私保护和多设备协同。",
+    },
+    {
+      title: "智慧教育方案线上沙龙",
+      date: "7月18日 · 线上直播",
+      audience: "教育行业客户与渠道伙伴",
+      summary: "围绕智慧教室、教师办公终端、机房更新与服务保障展开。",
+    },
+    {
+      title: "渠道伙伴夏季训练营",
+      date: "7月25日 · 上海",
+      audience: "核心渠道与 L1 销售团队",
+      summary: "包含线索转化打法、重点机型卖点、协同反馈规范等模块。",
+    },
+  ];
+  return `
+    <div class="app-screen">
+      <div class="scroll-page">
+        ${topNav("联想近期活动", { back: "go-home" })}
+        <main class="info-content">
+          <section class="info-hero event-hero">
+            <span>市场活动推荐</span>
+            <h2>给线索跟进补一个可邀约的话题</h2>
+            <p>活动信息为假数据，适合演示智能体如何给销售推荐可转发给客户的活动。</p>
+          </section>
+          <section class="event-list">
+            ${events.map((item) => `
+              <article class="info-card event-card">
+                <div class="event-date">${item.date}</div>
+                <h3>${item.title}</h3>
+                <p>${item.summary}</p>
+                <div class="info-meta">适合邀约：${item.audience}</div>
+                <button data-action="toast" data-message="已生成活动邀约话术">生成邀约话术</button>
+              </article>
+            `).join("")}
+          </section>
+        </main>
+      </div>
+      ${bottomInput({ placeholder: "输入客户行业，匹配适合邀约的活动" })}
+      ${toastMarkup()}
+      ${modalMarkup()}
     </div>
   `;
 }
@@ -1021,6 +1133,8 @@ function route() {
   if (!parts.length) return { page: "home" };
   if (parts[0] === "agent") return { page: "agent" };
   if (parts[0] === "visits") return { page: "visits" };
+  if (parts[0] === "models") return { page: "models" };
+  if (parts[0] === "events") return { page: "events" };
   if (parts[0] === "lead") return { page: "lead", id: parts[1] };
   if (parts[0] === "list") return { page: "list", category: parts[1] || "all" };
   return { page: "home" };
@@ -1030,6 +1144,8 @@ function render() {
   const current = route();
   if (current.page === "agent") app.innerHTML = agentPage();
   else if (current.page === "visits") app.innerHTML = visitPage();
+  else if (current.page === "models") app.innerHTML = modelsPage();
+  else if (current.page === "events") app.innerHTML = eventsPage();
   else if (current.page === "lead") app.innerHTML = detailPage(current.id);
   else if (current.page === "list") app.innerHTML = listPage(current.category);
   else app.innerHTML = homePage();
